@@ -21,7 +21,7 @@ html,body{
   height: 10vh;
   width: 100%;
   background-color: white;
-  border: 1px solid black;
+  /* border: 1px solid black; */
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -88,19 +88,158 @@ html,body{
     text-transform: capitalize;
 
 }
-.main-content{
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+
+/* ... your existing styles ... */
+
+/* MAIN BG LAYER */
+.main-content {
+  position: relative;
   width: 100%;
   height: 90vh;
-  background-color: yellow;
-  display: flex;
-  /* align-items: center; */
-  /* justify-content: center; */
-  flex-direction: column;
   text-align: center;
+  overflow: hidden;
+}
+.main-bg {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
   background-image: url("img/hero-civic-CB5Ckwa3.jpg");
-  background-color: #194b90bf;
-  background-blend-mode: multiply;
   background-size: cover;
   background-position: center;
-  background-repeat: no-repeat;
+  filter: blur(8px);
+  z-index: 1;
+}
+
+/* MAIN COLOR OVERLAY */
+.main-overlay {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(30, 100, 192, 0.5);
+  z-index: 2;
+}
+
+/* content above overlays */
+.main-content h1, 
+.main-content p, 
+.center-rapper {
+  position: relative;
+  z-index: 3;
+  color: white;
+  top: 50px;
+  font-family: "Open Sans", sans-serif;
+}
+
+.main-content h1{
+  font-size: 50px;
+  font-weight: 900;
+}
+.main-content h1>span{
+  font-weight: 700;
+  top: -70px;
+  word-spacing: 4px;
+  color: rgba(245, 245, 245, 0.638);
+}
+.paragraph{
+  font-size: 20px;
+  text-transform: capitalize;
+  margin-top: 30px;
+  word-spacing: 2px;
+}
+.action-buttons {
+  display: flex;
+  gap: 24px;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+.primary-btn {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: linear-gradient(90deg, #3e83f2, #349cf8);
+  color: #fff;
+  border: none;
+  padding: 0px 20px;
+  font-size: 14px;
+  border-radius: 16px;
+  box-shadow: 0 6px 24px rgba(62,131,242,0.10);
+  cursor: pointer;
+  font-weight: 600;
+  transition: opacity 0.2s;
+}
+
+.primary-btn i {
+  font-size: 1.3em;
+}
+
+.outline-btn {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: transparent;
+  color: #fff;
+  border: 2px solid rgba(255,255,255,0.4);
+  font-size: 14px;
+  padding: 15px 20px;
+  border-radius: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.outline-btn i {
+  font-size: 1.3em;
+}
+
+.primary-btn:hover, .outline-btn:hover {
+  opacity: 0.85;
+  border-color: #fff;
+}
+.stats-row {
+  display: flex;
+  gap: 40px;
+  justify-content: center;
+  margin-top: 38px;
+}
+
+.stat-card {
+  width: 270px;
+  height: 165px;
+  background: rgba(255,255,255,0.13);
+  border: 2px solid rgba(255,255,255,0.36);
+  border-radius: 20px;
+  box-shadow: 0 4px 32px rgba(0,0,0,0.07);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(4px);
+}
+
+.stat-card i {
+  font-size: 2.2em;
+  margin-bottom: 12px;
+  color: #fff;
+  opacity: 0.7;
+}
+
+.stat-main {
+  font-size: 2.3em;
+  color: #fff;
+  font-weight: 700;
+  margin-bottom: 6px;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.stat-label {
+  color: #fff;
+  opacity: 0.85;
+  font-size: 1rem;
+  font-weight: 400;
+  letter-spacing: 0.5px;
+  font-family: 'Open Sans', sans-serif;
 }

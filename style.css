@@ -1,0 +1,106 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+
+
+*{
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+html,body{
+  height: 100%;
+  width: 100%;
+}
+.inlinepadding{
+  padding-inline: 2vw;
+}
+.rapper{
+  height: 100%;
+  width: 100%;
+}
+.navbar{
+  height: 10vh;
+  width: 100%;
+  background-color: white;
+  border: 1px solid black;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.leftnav{
+  display: flex;
+  align-items: center;
+  justify-content: baseline;
+}
+.leftnav i{
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: #3e83f2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+.content{
+  margin-left: 10px;
+}
+.leftnav h1{
+    font-size: 15px;
+    font-family: "Open Sans", sans-serif;
+}
+.leftnav p{
+  font-size: 10px;
+  color: rgb(122, 117, 117);
+}
+.centernav{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.centernav li{
+  list-style: none;
+  margin-left: 30px;
+    font-family: "Open Sans", sans-serif;
+    color: rgb(46, 45, 45);
+    font-size: 14px;
+    transition: all ease 0.3s;
+}
+.centernav li:hover{
+  border-bottom: 1px solid #3e83f2;
+  cursor: pointer;
+}
+.rightnav i{
+  margin-right: 20px;
+  cursor: pointer;
+}
+.rightnav .btn{
+  margin-right: 10px;
+}
+.btn{
+  padding: 10px 20px;
+  color: white;
+  background-color: #3e83f2;
+  border: none;
+  border-radius: 10px;
+  cursor:  pointer;
+  font-weight: 400;
+    font-family: "Open Sans", sans-serif;
+    text-transform: capitalize;
+
+}
+.main-content{
+  width: 100%;
+  height: 90vh;
+  background-color: yellow;
+  display: flex;
+  /* align-items: center; */
+  /* justify-content: center; */
+  flex-direction: column;
+  text-align: center;
+  background-image: url("img/hero-civic-CB5Ckwa3.jpg");
+  background-color: #194b90bf;
+  background-blend-mode: multiply;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}

@@ -1,83 +1,211 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>this is civic issu reporting portal || kaku coder</title>
-    <link rel="stylesheet" href="style.css" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
-      integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    />
-  </head>
-  <body>
-    <div class="rapper">
-      <div class="navbar inlinepadding">
-        <div class="leftnav">
-          <i class="fa-solid fa-location-dot"></i>
-          <div class="content">
-            <h1>Civic Report</h1>
-            <p>Community Issus Platform</p>
-          </div>
-        </div>
-        <div class="centernav">
-          <li>Home</li>
-          <li>Dashboard</li>
-          <li>Our Achievements</li>
-          <li>About</li>
-        </div>
-        <div class="rightnav">
-          <i class="fa-solid fa-bell"></i>
-          <button class="btn">Report issus</button>
-          <i class="fa-solid fa-user"></i>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>This is Civic Issue Reporting Portal || Kaku Coder</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" />
+
+  <style>
+    /* Profile Dropdown */
+    .user-profile { position: relative; display: inline-block; }
+    .profile-dropdown {
+      position: absolute; top: 100%; right: 0; background: #20212a;
+      border-radius: 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+      padding: 20px; min-width: 200px; z-index: 1000; display: none;
+      border: 1px solid #353747;
+    }
+    .profile-dropdown.show { display: block; }
+    .profile-info { border-bottom: 1px solid #353747; padding-bottom: 15px; margin-bottom: 15px; }
+    .profile-info h4 { color: #19e7e0; margin: 0; font-size: 16px; }
+    .profile-info p { color: #b4b6b8; margin: 0; font-size: 14px; }
+    .profile-actions { display: flex; flex-direction: column; gap: 8px; }
+    .profile-btn, .logout-btn {
+      background: transparent; border: 1px solid #353747;
+      color: #fff; padding: 8px 12px; border-radius: 8px; cursor: pointer;
+      font-size: 14px; display: flex; align-items: center; gap: 8px;
+      transition: all 0.3s ease;
+    }
+    .profile-btn:hover { background: #353747; border-color: #19e7e0; }
+    .logout-btn:hover { background: #fa3846; border-color: #fa3846; }
+    .login-prompt { display: inline-block; }
+
+    /* ChatBot */
+    .chat-assist-btn {
+      position: fixed; bottom: 22px; right: 24px;
+      background: #0078ff; color: white;
+      border: none; border-radius: 50%;
+      width: 70px; height: 70px;
+      font-size: 1.8rem; cursor: pointer;
+      box-shadow: 0 3px 15px rgba(0,0,0,0.3);
+      z-index: 1100;
+    }
+    .chat-assist-box {
+      display: none; flex-direction: column;
+      position: fixed; bottom: 100px; right: 24px;
+      width: 350px; height: 450px; z-index: 1099;
+      border-radius: 16px; box-shadow: 0 6px 30px rgba(0,0,0,0.3);
+      background: #f6f7fb; overflow: hidden;
+    }
+    .chat-assist-header {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      padding: 16px; color: #fff; font-weight: 700; text-align: center;
+    }
+    .chat-body {
+      padding: 10px; flex: 1; overflow-y: auto;
+      display: flex; flex-direction: column;
+    }
+    .chat-msg {
+      max-width: 80%; padding: 10px 14px;
+      border-radius: 12px; margin-bottom: 10px;
+      font-size: 0.95rem; line-height: 1.3em;
+    }
+    .chat-msg.user { background: #0078ff; color: #fff; align-self: flex-end; }
+    .chat-msg.bot { background: #eee; color: #222; align-self: flex-start; }
+    .chat-footer { border-top: 1px solid #ddd; display: flex; gap: 6px; padding: 10px; background: #fff; }
+    .chat-footer input { flex: 1; border-radius: 7px; padding: 6px 10px; border: 1px solid #ccc; }
+    .chat-footer button { background: #0078ff; color: #fff; border: none; border-radius: 6px; padding: 7px 14px; cursor: pointer; }
+  </style>
+</head>
+
+<body>
+  <!-- Existing design preserved -->
+  <div class="rapper">
+    <div class="navbar inlinepadding">
+      <div class="leftnav">
+        <i class="fa-solid fa-location-dot"></i>
+        <div class="content">
+          <h1>Civic Report</h1>
+          <p>Community Issues Platform</p>
         </div>
       </div>
-
-<div class="main-content">
-  <div class="main-bg"></div>
-  <div class="main-overlay"></div>
-  <h1>
-    Your Voice <br />
-    <span>Your Community</span>
-  </h1>
-  <p class="paragraph">
-    report civic issues instantly .track progress transparently build <br> a better community together
-  </p>
-  <div class="center-rapper">
-<div class="action-buttons">
-  <button class="primary-btn">
-    <i class="fa fa-camera"></i> Report an Issue
-  </button>
-  <button class="outline-btn">
-    <i class="fa fa-map-marker-alt"></i> View Dashboard
-  </button>
-</div>
-    <div class="stats-row">
-  <div class="stat-card">
-    <i class="fa fa-users"></i>
-    <div class="stat-main">12,547</div>
-    <div class="stat-label">Active Citizens</div>
-  </div>
-  <div class="stat-card">
-    <i class="fa fa-chart-line" style="color: #27c075;"></i>
-    <div class="stat-main">8,392</div>
-    <div class="stat-label">Issues Resolved</div>
-  </div>
-  <div class="stat-card">
-    <i class="fa fa-location-dot" style="color: #ff8703;"></i>
-    <div class="stat-main">24h</div>
-    <div class="stat-label">Avg Response Time</div>
-  </div>
-</div>
-
-  </div>
-</div>
-
+      <div class="centernav">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="dashboard.html" onclick="checkAuthAndDashboard()">Dashboard</a></li>
+        <li><a href="profile.html" onclick="checkAuthAndProfile()">Profile</a></li>
+        <li>Our Achievements</li>
+        <li>About</li>
+      </div>
+      <div class="rightnav">
+        <i class="fa-solid fa-bell"></i>
+        <button class="btn" onclick="checkAuthAndReport()">Report Issue</button>
+        <div class="user-profile" id="userProfile" style="display: none;">
+          <i class="fa-solid fa-user" onclick="toggleProfileDropdown()" style="cursor:pointer;"></i>
+          <div class="profile-dropdown" id="profileDropdown">
+            <div class="profile-info">
+              <h4 id="profileUserName">User</h4>
+              <p id="profileUserEmail">user@example.com</p>
+            </div>
+            <div class="profile-actions">
+              <button onclick="showProfile()" class="profile-btn">
+                <i class="fa-solid fa-user-circle"></i> Profile
+              </button>
+              <button onclick="logout()" class="logout-btn">
+                <i class="fa-solid fa-sign-out-alt"></i> Logout
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="login-prompt" id="loginPrompt">
+          <i class="fa-solid fa-user" onclick="checkAuthAndUser()" style="cursor:pointer;"></i>
+        </div>
+      </div>
     </div>
 
-    <script src="file.js"></script>
-  </body>
+    <!-- Main Body -->
+    <div class="main-content">
+      <div class="main-bg"></div>
+      <div class="main-overlay"></div>
+      <h1>Your Voice<br><span>Your Community</span></h1>
+      <p class="paragraph">Report civic issues instantly. Track progress transparently. Build a better community together.</p>
+      <div class="center-rapper">
+        <div class="action-buttons">
+          <button class="primary-btn" onclick="checkAuthAndReport()"><i class="fa fa-camera"></i> Report an Issue</button>
+          <button class="outline-btn"><i class="fa fa-map-marker-alt"></i> View Dashboard</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Chat Bot Button and Window -->
+  <button class="chat-assist-btn" id="chatAssistBtn"><i class="fa fa-robot"></i></button>
+  <div class="chat-assist-box" id="chatAssistBox">
+    <div class="chat-assist-header">Civic AI Assistant</div>
+    <div class="chat-body" id="assistBody">
+      <div class="chat-msg bot">👋 Hello! I’m CivicBot, your AI assistant. Ask me anything about civic services, reporting, or guidance.</div>
+    </div>
+    <div class="chat-footer">
+      <input type="text" id="assistInput" placeholder="Type or talk..." />
+      <button id="sendAssist"><i class="fa fa-paper-plane"></i></button>
+    </div>
+  </div>
+
+<script>
+  const chatBtn = document.getElementById("chatAssistBtn");
+  const chatBox = document.getElementById("chatAssistBox");
+  const chatBody = document.getElementById("assistBody");
+  const chatInput = document.getElementById("assistInput");
+  const sendAssist = document.getElementById("sendAssist");
+
+  chatBtn.onclick = () => chatBox.style.display = chatBox.style.display === "flex" ? "none" : "flex";
+
+  sendAssist.onclick = sendMsg;
+  chatInput.addEventListener("keypress", e => { if(e.key === "Enter") sendMsg(); });
+
+  function addMsg(msg, sender){
+    const div = document.createElement("div");
+    div.className = "chat-msg " + sender;
+    div.textContent = msg;
+    chatBody.appendChild(div);
+    chatBody.scrollTop = chatBody.scrollHeight;
+  }
+
+  async function sendMsg(){
+    const userText = chatInput.value.trim();
+    if (!userText) return;
+    addMsg(userText, "user");
+    chatInput.value = "";
+    addMsg("Thinking...", "bot");
+
+    const API_KEY = "YOUR_OPENAI_API_KEY"; // Replace with your valid key
+
+    try {
+      const response = await fetch("https://api.openai.com/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${API_KEY}`,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          model: "gpt-3.5-turbo-1106",
+          messages: [
+            { role: "system", content: "You are CivicBot, a civic-help AI assistant for citizens." },
+            { role: "user", content: userText }
+          ],
+          max_tokens: 200,
+          temperature: 0.7
+        })
+      });
+
+      if (!response.ok) {
+        let err = await response.text();
+        throw new Error(`Failed: ${response.status}, ${err}`);
+      }
+
+      const data = await response.json();
+      chatBody.removeChild(chatBody.lastChild);
+      const reply = data.choices[0]?.message?.content || "Sorry, I didn't get that.";
+      addMsg(reply, "bot");
+
+    } catch (err) {
+      chatBody.removeChild(chatBody.lastChild);
+      addMsg("⚠️ Error connecting to AI service. Check your API key or network.\n" + err.message, "bot");
+      console.error("Chatbot Error:", err);
+    }
+  }
+</script>
+
+  <script src="file.js"></script>
+</body>
 </html>

@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>API Test | Civic Report</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 15px;
+      padding: 30px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+      color: #2c3e50;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .api-section {
+      margin-bottom: 30px;
+      padding: 20px;
+      background: #f8f9fa;
+      border-radius: 10px;
+      border-left: 4px solid #667eea;
+    }
+    .api-section h2 {
+      color: #2c3e50;
+      margin-bottom: 15px;
+    }
+    .btn {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 25px;
+      cursor: pointer;
+      font-weight: bold;
+      margin: 10px 5px;
+      transition: transform 0.3s ease;
+    }
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+    .response {
+      background: #2c3e50;
+      color: #ecf0f1;
+      padding: 15px;
+      border-radius: 8px;
+      font-family: 'Courier New', monospace;
+      font-size: 14px;
+      white-space: pre-wrap;
+      overflow-x: auto;
+      max-height: 300px;
+      overflow-y: auto;
+      margin-top: 10px;
+    }
+    .status {
+      padding: 5px 10px;
+      border-radius: 15px;
+      font-size: 12px;
+      font-weight: bold;
+      margin-left: 10px;
+    }
+    .status.success {
+      background: #d4edda;
+      color: #155724;
+    }
+    .status.error {
+      background: #f8d7da;
+      color: #721c24;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1><i class="fas fa-code"></i> Civic Report API Test</h1>
+    
+    <div class="api-section">
+      <h2>GET /api/users</h2>
+      <button class="btn" onclick="testGetUsers()">Test Get Users</button>
+      <div id="usersResponse" class="response" style="display: none;"></div>
+    </div>
+
+    <div class="api-section">
+      <h2>GET /api/issues</h2>
+      <button class="btn" onclick="testGetAllIssues()">Test Get All Issues</button>
+      <div id="allIssuesResponse" class="response" style="display: none;"></div>
+    </div>
+
+    <div class="api-section">
+      <h2>GET /api/user/issues</h2>
+      <button class="btn" onclick="testGetUserIssues()">Test Get User Issues</button>
+      <div id="userIssuesResponse" class="response" style="display: none;"></div>
+    </div>
+
+    <div class="api-section">
+      <h2>GET /api/user/stats</h2>
+      <button class="btn" onclick="testGetUserStats()">Test Get User Stats</button>
+      <div id="userStatsResponse" class="response" style="display: none;"></div>
+    </div>
+
+    <div class="api-section">
+      <h2>GET /api/complete</h2>
+      <button class="btn" onclick="testGetCompleteData()">Test Get Complete Data</button>
+      <div id="completeResponse" class="response" style="display: none;"></div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+  <script>
+    // API Simulation Class
+    class CivicReportAPI {
+      constructor() {
+        this.baseURL = 'localStorage';
+      }
+
+      async getUsers() {
+        try {
+          const users = JSON.parse(localStorage.getItem('civicUsers') || '[]');
+          return {
+            success: true,
+            data: users,
+            count: users.length,
+            timestamp: new Date().toISOString()
+          };
+        } catch (error) {
+          return {
+            success: false,
+            error: error.message,
+            timestamp: new Date().toISOString()
+          };
+        }
+      }
+
+      async getAllIssues() {
+        try {
+          const issues = JSON.parse(localStorage.getItem('allIssues') || '[]');
+          return {
+            success: true,
+            data: issues,
+            count: issues.length,
+            resolved: issues.filter(issue => issue.status === 'resolved').length,
+            pending: issues.filter(issue => issue.status === 'pending' || issue.status === 'open').length,
+            timestamp: new Date().toISOString()
+          };
+        } catch (error) {
+          return {
+            success: false,
+            error: error.message,
+            timestamp: new Date().toISOString()
+          };
+        }
+      }
+
+      async getUserIssues(userEmail) {
+        try {
+          const allIssues = JSON.parse(localStorage.getItem('allIssues') || '[]');
+          const userIssues = allIssues.filter(issue => issue.userEmail === userEmail);
+          
+          return {
+            success: true,
+            data: userIssues,
+            count: userIssues.length,
+            userEmail: userEmail,
+            timestamp: new Date().toISOString()
+          };
+        } catch (error) {
+          return {
+            success: false,
+            error: error.message,
+            timestamp: new Date().toISOString()
+          };
+        }
+      }
+
+      async getUserStats(userEmail) {
+        try {
+          const userStats = JSON.parse(localStorage.getItem('userStats') || '{}');
+          const userData = userStats[userEmail] || { totalIssues: 0, resolvedIssues: 0, pendingIssues: 0 };
+          
+          return {
+            success: true,
+            data: userData,
+            userEmail: userEmail,
+            timestamp: new Date().toISOString()
+          };
+        } catch (error) {
+          return {
+            success: false,
+            error: error.message,
+            timestamp: new Date().toISOString()
+          };
+        }
+      }
+
+      async getCompleteData() {
+        try {
+          const completeData = {
+            metadata: {
+              exportDate: new Date().toISOString(),
+              totalUsers: JSON.parse(localStorage.getItem('civicUsers') || '[]').length,
+              totalIssues: JSON.parse(localStorage.getItem('allIssues') || '[]').length,
+              version: "1.0"
+            },
+            users: JSON.parse(localStorage.getItem('civicUsers') || '[]'),
+            allIssues: JSON.parse(localStorage.getItem('allIssues') || '[]'),
+            userStats: JSON.parse(localStorage.getItem('userStats') || '{}'),
+            currentUser: {
+              name: localStorage.getItem('userName'),
+              email: localStorage.getItem('userEmail'),
+              loggedIn: localStorage.getItem('loggedIn')
+            }
+          };
+          
+          return {
+            success: true,
+            data: completeData,
+            timestamp: new Date().toISOString()
+          };
+        } catch (error) {
+          return {
+            success: false,
+            error: error.message,
+            timestamp: new Date().toISOString()
+          };
+        }
+      }
+    }
+
+    const api = new CivicReportAPI();
+
+    async function testGetUsers() {
+      const response = await api.getUsers();
+      const responseDiv = document.getElementById('usersResponse');
+      responseDiv.style.display = 'block';
+      responseDiv.textContent = JSON.stringify(response, null, 2);
+    }
+
+    async function testGetAllIssues() {
+      const response = await api.getAllIssues();
+      const responseDiv = document.getElementById('allIssuesResponse');
+      responseDiv.style.display = 'block';
+      responseDiv.textContent = JSON.stringify(response, null, 2);
+    }
+
+    async function testGetUserIssues() {
+      const userEmail = localStorage.getItem('userEmail') || 'user@example.com';
+      const response = await api.getUserIssues(userEmail);
+      const responseDiv = document.getElementById('userIssuesResponse');
+      responseDiv.style.display = 'block';
+      responseDiv.textContent = JSON.stringify(response, null, 2);
+    }
+
+    async function testGetUserStats() {
+      const userEmail = localStorage.getItem('userEmail') || 'user@example.com';
+      const response = await api.getUserStats(userEmail);
+      const responseDiv = document.getElementById('userStatsResponse');
+      responseDiv.style.display = 'block';
+      responseDiv.textContent = JSON.stringify(response, null, 2);
+    }
+
+    async function testGetCompleteData() {
+      const response = await api.getCompleteData();
+      const responseDiv = document.getElementById('completeResponse');
+      responseDiv.style.display = 'block';
+      responseDiv.textContent = JSON.stringify(response, null, 2);
+    }
+  </script>
+</body>
+</html>

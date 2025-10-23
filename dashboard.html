@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard | Civic Report</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      color: #333;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .header {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 15px;
+      padding: 20px;
+      margin-bottom: 30px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      backdrop-filter: blur(10px);
+    }
+
+    .header h1 {
+      color: #2c3e50;
+      margin-bottom: 10px;
+      font-size: 2.5rem;
+    }
+
+    .welcome-text {
+      color: #7f8c8d;
+      font-size: 1.1rem;
+    }
+
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+      margin-bottom: 30px;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 15px;
+      padding: 25px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      backdrop-filter: blur(10px);
+      transition: transform 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+    }
+
+    .card h2 {
+      color: #2c3e50;
+      margin-bottom: 20px;
+      font-size: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .profile-info {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+
+    .profile-avatar {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 2rem;
+      font-weight: bold;
+    }
+
+    .profile-details h3 {
+      color: #2c3e50;
+      margin-bottom: 5px;
+      font-size: 1.3rem;
+    }
+
+    .profile-details p {
+      color: #7f8c8d;
+      margin-bottom: 3px;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    .stat-card {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 15px;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      backdrop-filter: blur(10px);
+    }
+
+    .stat-number {
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: #2c3e50;
+      margin-bottom: 5px;
+    }
+
+    .stat-label {
+      color: #7f8c8d;
+      font-size: 0.9rem;
+    }
+
+    .issues-section {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 15px;
+      padding: 25px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      backdrop-filter: blur(10px);
+    }
+
+    .issue-item {
+      background: #f8f9fa;
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 15px;
+      border-left: 4px solid #3498db;
+    }
+
+    .issue-title {
+      font-weight: bold;
+      color: #2c3e50;
+      margin-bottom: 5px;
+    }
+
+    .issue-status {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+
+    .status-pending {
+      background: #fff3cd;
+      color: #856404;
+    }
+
+    .status-resolved {
+      background: #d4edda;
+      color: #155724;
+    }
+
+    .status-in-progress {
+      background: #cce5ff;
+      color: #004085;
+    }
+
+    .btn {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 25px;
+      cursor: pointer;
+      font-weight: bold;
+      text-decoration: none;
+      display: inline-block;
+      transition: transform 0.3s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-secondary {
+      background: linear-gradient(135deg, #95a5a6, #7f8c8d);
+    }
+
+    .logout-btn {
+      background: linear-gradient(135deg, #e74c3c, #c0392b);
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .full-width {
+      grid-column: 1 / -1;
+    }
+
+    @media (max-width: 768px) {
+      .dashboard-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .action-buttons {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <script>
+    // Check authentication status
+    if(localStorage.getItem("loggedIn") !== "true"){
+      localStorage.setItem("redirectAfterLogin", "dashboard.html");
+      window.location.href = "login.html";
+    }
+  </script>
+
+  <div class="container">
+    <div class="header">
+      <h1><i class="fas fa-tachometer-alt"></i> Dashboard</h1>
+      <p class="welcome-text">Welcome back, <span id="userName">User</span>! Here's your civic engagement overview.</p>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-number" id="totalIssues">0</div>
+        <div class="stat-label">Total Issues Reported</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" id="resolvedIssues">0</div>
+        <div class="stat-label">Issues Resolved</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" id="pendingIssues">0</div>
+        <div class="stat-label">Pending Issues</div>
+      </div>
+    </div>
+
+    <div class="dashboard-grid">
+      <div class="card">
+        <h2><i class="fas fa-user"></i> Profile Information</h2>
+        <div class="profile-info">
+          <div class="profile-avatar" id="userAvatar">U</div>
+          <div class="profile-details">
+            <h3 id="profileName">User Name</h3>
+            <p id="profileEmail">user@example.com</p>
+            <p id="profilePhone">+91 0000000000</p>
+            <p>Member since: <span id="memberSince">2024</span></p>
+          </div>
+        </div>
+        <div class="action-buttons">
+          <button class="btn" onclick="editProfile()">
+            <i class="fas fa-edit"></i> Edit Profile
+          </button>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2><i class="fas fa-cog"></i> Quick Actions</h2>
+        <div class="action-buttons">
+          <a href="report.html" class="btn">
+            <i class="fas fa-plus"></i> Report New Issue
+          </a>
+          <button class="btn btn-secondary" onclick="viewAllIssues()">
+            <i class="fas fa-list"></i> View All Issues
+          </button>
+          <button class="btn logout-btn" onclick="logout()">
+            <i class="fas fa-sign-out-alt"></i> Logout
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="issues-section full-width">
+      <h2><i class="fas fa-clipboard-list"></i> Recent Issues</h2>
+      <div id="recentIssues">
+        <p style="text-align: center; color: #7f8c8d; padding: 20px;">
+          No issues reported yet. <a href="report.html" style="color: #667eea;">Report your first issue!</a>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Load user data
+    document.addEventListener('DOMContentLoaded', function() {
+      console.log("Dashboard loaded, checking localStorage:");
+      console.log("loggedIn:", localStorage.getItem("loggedIn"));
+      console.log("userName:", localStorage.getItem("userName"));
+      console.log("userEmail:", localStorage.getItem("userEmail"));
+      
+      loadUserData();
+      loadUserStats();
+      loadRecentIssues();
+    });
+
+    function loadUserData() {
+      const userName = localStorage.getItem("userName") || "User";
+      const userEmail = localStorage.getItem("userEmail") || "user@example.com";
+      
+      console.log("Loading user data:", { userName, userEmail });
+      
+      // Update welcome message
+      const userNameElement = document.getElementById("userName");
+      if (userNameElement) {
+        userNameElement.textContent = userName;
+      }
+      
+      // Update profile information
+      const profileNameElement = document.getElementById("profileName");
+      if (profileNameElement) {
+        profileNameElement.textContent = userName;
+      }
+      
+      const profileEmailElement = document.getElementById("profileEmail");
+      if (profileEmailElement) {
+        profileEmailElement.textContent = userEmail;
+      }
+      
+      const userAvatarElement = document.getElementById("userAvatar");
+      if (userAvatarElement) {
+        userAvatarElement.textContent = userName.charAt(0).toUpperCase();
+      }
+      
+      // Get user phone from stored users
+      const users = JSON.parse(localStorage.getItem('civicUsers') || '[]');
+      const currentUser = users.find(u => u.email === userEmail);
+      if (currentUser) {
+        const profilePhoneElement = document.getElementById("profilePhone");
+        if (profilePhoneElement) {
+          profilePhoneElement.textContent = currentUser.phone || "+91 0000000000";
+        }
+      }
+    }
+
+    function loadUserStats() {
+      // Load user's issue statistics
+      const userEmail = localStorage.getItem("userEmail") || "user@example.com";
+      const userIssues = JSON.parse(localStorage.getItem('userIssues') || '[]');
+      
+      // Filter issues for current user
+      const userSpecificIssues = userIssues.filter(issue => issue.userEmail === userEmail);
+      
+      const totalIssues = userSpecificIssues.length;
+      const resolvedIssues = userSpecificIssues.filter(issue => issue.status === 'resolved').length;
+      const pendingIssues = userSpecificIssues.filter(issue => issue.status === 'pending' || issue.status === 'open').length;
+      
+      document.getElementById("totalIssues").textContent = totalIssues;
+      document.getElementById("resolvedIssues").textContent = resolvedIssues;
+      document.getElementById("pendingIssues").textContent = pendingIssues;
+    }
+
+    function loadRecentIssues() {
+      const userEmail = localStorage.getItem("userEmail") || "user@example.com";
+      const userIssues = JSON.parse(localStorage.getItem('userIssues') || '[]');
+      const recentIssuesContainer = document.getElementById("recentIssues");
+      
+      // Filter issues for current user
+      const userSpecificIssues = userIssues.filter(issue => issue.userEmail === userEmail);
+      
+      if (userSpecificIssues.length === 0) {
+        return; // Keep the default "no issues" message
+      }
+      
+      // Show last 5 issues
+      const recentIssues = userSpecificIssues.slice(-5).reverse();
+      recentIssuesContainer.innerHTML = '';
+      
+      recentIssues.forEach(issue => {
+        const issueElement = document.createElement('div');
+        issueElement.className = 'issue-item';
+        issueElement.innerHTML = `
+          <div class="issue-title">${issue.category || issue.title || 'Issue'}</div>
+          <div style="margin-top: 8px;">
+            <span class="issue-status status-${issue.status}">${issue.status}</span>
+            <span style="float: right; color: #7f8c8d; font-size: 0.9rem;">
+              ${issue.dateDisplay || new Date(issue.date).toLocaleDateString()}
+            </span>
+          </div>
+          <div style="margin-top: 5px; color: #7f8c8d; font-size: 0.9rem;">
+            ${issue.area || issue.desc || 'No description'}
+          </div>
+        `;
+        recentIssuesContainer.appendChild(issueElement);
+      });
+    }
+
+    function editProfile() {
+      alert("Profile editing functionality coming soon!");
+    }
+
+    function viewAllIssues() {
+      alert("All issues view coming soon!");
+    }
+
+    function logout() {
+      localStorage.removeItem("loggedIn");
+      localStorage.removeItem("userName");
+      localStorage.removeItem("userEmail");
+      window.location.href = "index.html";
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login | Civic Report</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" />
+  <style>
+    /* Same styling as earlier: clean, dark-mode, responsive */
+    body {margin:0;padding:0;background:#686063;font-family:'Montserrat',Arial,sans-serif;display:flex;justify-content:center;align-items:center;height:100vh;}
+    .container {display:flex;gap:40px;}
+    .auth-card{background:#20212a;border-radius:24px;box-shadow:0 12px 36px rgba(44,105,141,0.13);width:340px;padding:38px 30px 28px;color:#fff;display:flex;flex-direction:column;align-items:stretch;}
+    .auth-card img{width:68px;align-self:center;margin-bottom:18px;border-radius:16px;}
+    .auth-card h2{text-align:center;font-size:1.6rem;margin:0 0 10px;}
+    .auth-card p{text-align:center;color:#b4b6b8;}
+    .input-box{background:#353747;display:flex;align-items:center;border-radius:10px;margin-bottom:20px;padding:4px 12px;position:relative;}
+    .input-box input{background:transparent;border:none;outline:none;color:#fff;padding:12px;width:100%;}
+    .input-box i{color:#34ffe5;margin-right:8px;}
+    .toggle-pass{position:absolute;right:14px;top:50%;transform:translateY(-50%);cursor:pointer;color:#19e7e0;}
+    button{padding:13px;border:none;border-radius:24px;width:100%;background:#19e7e0;color:#222;font-weight:700;font-size:1rem;cursor:pointer;}
+    button:hover{background:#34ffe5;}
+    .error-msg{color:#fa3846;background:#29292f;border-radius:6px;padding:6px;text-align:center;margin-bottom:10px;}
+    .success-msg{color:#19e7e0;text-align:center;margin-bottom:10px;}
+    .link-box{text-align:center;margin-top:8px;}
+    .link-box a{color:#19e7e0;text-decoration:none;}
+    .link-box a:hover{text-decoration:underline;}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- LOGIN CARD -->
+    <div class="auth-card" id="loginCard">
+      <img src="image.jpg" alt="">
+      <h2>Login</h2>
+      <p>Welcome back! Please login to continue.</p>
+      <div id="loginError" class="error-msg" style="display:none;"></div>
+      <form id="loginForm">
+        <div class="input-box">
+          <i class="fas fa-envelope"></i>
+          <input type="email" id="loginEmail" placeholder="Email" required>
+        </div>
+        <div class="input-box">
+          <i class="fas fa-lock"></i>
+          <input type="password" id="loginPassword" placeholder="Password" required>
+          <span class="toggle-pass" onclick="togglePassword('loginPassword', this)">
+            <i class="fa-regular fa-eye"></i>
+          </span>
+        </div>
+        <button type="submit">Login</button>
+      </form>
+      <div class="link-box">Don't have an account? <a href="#" onclick="showSignup()">Sign up</a></div>
+    </div>
+
+    <!-- SIGNUP CARD -->
+    <div class="auth-card" id="signupCard" style="display:none;">
+      <h2>Create Account</h2>
+      <p>Please register your details.</p>
+      <div id="signupError" class="error-msg" style="display:none;"></div>
+      <div id="signupSuccess" class="success-msg" style="display:none;"></div>
+      <form id="signupForm">
+        <div class="input-box"><i class="fas fa-user"></i><input type="text" id="signupName" placeholder="Full Name" required></div>
+        <div class="input-box"><i class="fas fa-phone"></i><input type="text" id="signupPhone" placeholder="Phone (10 digits)" required></div>
+        <div class="input-box"><i class="fas fa-envelope"></i><input type="email" id="signupEmail" placeholder="Email" required></div>
+        <div class="input-box"><i class="fas fa-lock"></i><input type="password" id="signupPassword" placeholder="Password" required>
+          <span class="toggle-pass" onclick="togglePassword('signupPassword', this)"><i class="fa-regular fa-eye"></i></span>
+        </div>
+        <div class="input-box"><i class="fas fa-lock"></i><input type="password" id="signupConfirm" placeholder="Confirm Password" required>
+          <span class="toggle-pass" onclick="togglePassword('signupConfirm', this)"><i class="fa-regular fa-eye"></i></span>
+        </div>
+        <button type="submit">Sign Up</button>
+      </form>
+      <div class="link-box">Already have an account? <a href="#" onclick="showLogin()">Sign in</a></div>
+    </div>
+  </div>
+
+  <script src="login.js"></script>
+</body>
+</html>

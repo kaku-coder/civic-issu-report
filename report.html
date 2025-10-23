@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Civic Issue Report Centered Panel</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"/>
+  <style>
+    body {
+      background: linear-gradient(135deg, #5A39F8 65%, #7452C5 100%);
+      min-height: 100vh; margin:0;
+      font-family: 'Montserrat',Arial,sans-serif;
+      display: flex; justify-content: center; align-items: center;
+    }
+    .side-panel {
+      width: 410px; max-width:97vw;
+      background: #181926;
+      border-radius: 19px;
+      box-shadow: 0 5px 44px #3d325a93;
+      color: #e8ecfa;
+      padding: 38px 20px 26px 20px;
+      display: flex; flex-direction:column; align-items:center; 
+      gap: 12px; position:relative;
+      margin: auto;
+    }
+    .side-panel h2 {
+      font-size:1.19rem; font-weight:700; color:#97c6f7;
+      margin-bottom:13px;margin-top:0;letter-spacing:0.06em;
+      display:flex;align-items:center;gap:9px; justify-content:center;
+      width: 100%; text-align: center;
+    }
+    form {
+      width: 100%; display: flex; flex-direction: column; align-items: center; gap: 0;
+    }
+    .form-group {
+      width: 100%; display: flex; flex-direction: column; align-items: center; margin-bottom: 12px;
+    }
+    .side-panel label {
+      font-size: 1rem; font-weight: 500; color: #a3add9; margin-bottom: 3px;
+      letter-spacing: 0.03em; display: flex; align-items: center; gap: 7px;
+      justify-content: center; text-align: center; width: 100%;
+    }
+    .side-panel input, .side-panel textarea, .side-panel select {
+      background: #23233c; border: 1.25px solid #353568;
+      border-radius: 12px; color: #e6e6f9; font-size:1.08rem;
+      padding: 11px 9px; width: 98%; margin-bottom: 7px;
+      box-sizing:border-box; text-align: center;
+      transition: border 0.15s;
+    }
+    .side-panel input:focus, .side-panel textarea:focus, .side-panel select:focus {
+      border-color: #68aaf8; outline:none;
+    }
+    .side-panel textarea { min-height: 56px; resize:vertical; }
+    .video-stream {
+      width: 97%; max-width: 285px; margin: 6px auto;
+      border-radius: 11px; box-shadow: 0 2px 12px #313769;
+      background:#262933; display:none;align-self: center;
+    }
+    .img-preview {
+      display: none;
+      margin: 12px auto 3px auto;
+      border-radius: 13px; max-width: 210px; max-height: 140px;
+      box-shadow: 0 2px 11px #28417c;
+      align-self: center;
+    }
+    .capture-btn, .speech-btn {
+      background: linear-gradient(90deg,#84fdee 60%,#4d92fc 100%);
+      color: #17233e; font-weight:700; font-size:1.03rem;
+      border:none; border-radius:8px; min-height:40px; cursor:pointer;
+      margin: 6px 8px 7px 8px; padding:7px 18px;
+      box-shadow:0 1px 10px #23269441; transition: background 0.14s;
+      display:inline-flex; align-items:center; gap:6px; justify-content: center;
+    }
+    .progress-row {
+      margin:10px 0 8px 0; display:flex; align-items:center; gap:9px; font-size:0.96rem; width:100%; justify-content: center;
+    }
+    .progress-bar { flex:1; height:8px; border-radius:9px; background:#232944; overflow:hidden; position:relative; max-width:160px; }
+    .progress-bar-inner { height:100%; background:linear-gradient(90deg,#54e8cf,#57baff 70%);
+      border-radius:9px 0 0 9px; width:0%; transition:width 0.32s;
+    }
+    .submit-btn {
+      background: linear-gradient(90deg,#67f9e2 60%,#4d92fc 100%);
+      color: #161d33; font-weight:700; font-size:1.09rem;
+      border:none; border-radius:8px; min-height:44px; cursor:pointer; margin:14px 0 2px 0;
+      display:flex;align-items:center;justify-content:center;gap:10px; width:98%;
+      box-shadow:0 2px 17px #23269460; transition: background 0.14s;
+      align-self: center;
+    }
+    .side-panel .fa-paper-plane, .side-panel .fa-camera {
+      font-size:1.03rem;
+    }
+    @media (max-width:550px) {
+      .side-panel {padding:15px 2vw;}
+      .video-stream {max-width:100vw;}
+      .img-preview {max-width:87vw;}
+      .progress-bar {max-width:70vw;}
+    }
+  </style>
+</head>
+<body>
+  <div class="side-panel" id="reportPanel">
+    <h2><i class="fa fa-info-circle"></i> Help improve your community</h2>
+    <form id="reportForm" autocomplete="off">
+      <div class="form-group">
+        <label for="rCategory"><i class="fa fa-list-alt"></i> Category</label>
+        <select id="rCategory" required>
+          <option value="">Select a category</option>
+          <option>Garbage</option>
+          <option>Pothole</option>
+          <option>Lighting</option>
+          <option>Water Leak</option>
+          <option>Road Damage</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label><i class="fa fa-camera"></i> Capture/Upload Photo</label>
+        <video id="cameraFeed" class="video-stream" autoplay playsinline></video>
+        <div>
+          <button type="button" id="startCam" class="capture-btn"><i class="fa fa-camera"></i> Open Camera</button>
+          <button type="button" id="snapBtn" class="capture-btn" style="display:none;"><i class="fa fa-camera"></i> Take Picture</button>
+        </div>
+        <canvas id="canvas" style="display:none;"></canvas>
+        <img id="imgPreview" class="img-preview" src="#" alt="Captured Image"/>
+      </div>
+      <div class="form-group">
+        <label for="rArea"><i class="fa fa-map-marker-alt"></i> Area (Auto/Manual)</label>
+        <input type="text" id="rArea" placeholder="Auto-fetching location..." required>
+      </div>
+      <div class="form-group">
+        <label for="rDesc"><i class="fa fa-align-left"></i> Description</label>
+        <textarea id="rDesc" placeholder="Describe the issue..." required></textarea>
+        <button type="button" id="speechBtn" class="speech-btn"><i class="fa fa-microphone"></i> Speak</button>
+      </div>
+      <div class="progress-row">
+        <span>Form Progress</span>
+        <div class="progress-bar"><div class="progress-bar-inner" id="formProgress"></div></div>
+        <span id="progressText" style="min-width:34px;">0%</span>
+      </div>
+      <button type="submit" class="submit-btn"><i class="fa fa-paper-plane"></i> Submit Issue Report</button>
+    </form>
+  </div>
+  <script>
+    // Auto-location
+    window.onload = function() {
+      getLocation(); calcProgress();
+    };
+    function getLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          pos => {
+            document.getElementById('rArea').value =
+              pos.coords.latitude.toFixed(5) + ", " + pos.coords.longitude.toFixed(5);
+          },
+          () => (document.getElementById("rArea").placeholder = "Could not detect. Enter manually.")
+        );
+      }
+    }
+    // Camera capture
+    const video = document.getElementById("cameraFeed");
+    const canvas = document.getElementById("canvas");
+    const imgPreview = document.getElementById("imgPreview");
+    const startCam = document.getElementById("startCam");
+    const snapBtn = document.getElementById("snapBtn");
+    let cameraStream, snappedImageData = '';
+    startCam.onclick = async function() {
+      try {
+        cameraStream = await navigator.mediaDevices.getUserMedia({ video: true });
+        video.srcObject = cameraStream;
+        video.style.display = "block";
+        snapBtn.style.display = "inline-block";
+        startCam.textContent = "Camera On";
+      } catch (e) {
+        alert("Camera access denied or unavailable.");
+      }
+    };
+    snapBtn.onclick = function() {
+      const context = canvas.getContext("2d");
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      context.drawImage(video, 0, 0, canvas.width, canvas.height);
+      snappedImageData = canvas.toDataURL("image/png");
+      imgPreview.src = snappedImageData;
+      imgPreview.style.display = "block";
+      if (cameraStream) { cameraStream.getTracks().forEach(track => track.stop()); }
+      video.style.display = "none";
+      snapBtn.style.display = "none";
+      startCam.textContent = "Retake Photo";
+    };
+    // Speech-to-text for Description
+    const speechBtn = document.getElementById("speechBtn");
+    const descField = document.getElementById("rDesc");
+    if ('webkitSpeechRecognition' in window) {
+      const recog = new webkitSpeechRecognition();
+      recog.lang = "en-IN";
+      recog.continuous = false;
+      recog.interimResults = false;
+      speechBtn.onclick = function() {
+        recog.start();
+        speechBtn.textContent = "Listening...";
+      };
+      recog.onresult = function(e) {
+        descField.value += e.results[0][0].transcript + " ";
+        speechBtn.textContent = "Speak";
+      };
+      recog.onerror = function() {
+        speechBtn.textContent = "Speak";
+      };
+    } else {
+      speechBtn.disabled = true;
+      speechBtn.textContent = "Speech not supported";
+    }
+    // Progress calculation
+    const fields = ["rCategory","rArea","rDesc"];
+    function calcProgress() {
+      let filled = fields.reduce((sum,f) => sum + (document.getElementById(f).value.trim() ? 1 : 0), 0);
+      let percent = Math.round(filled / fields.length * 100);
+      document.getElementById('formProgress').style.width = percent + "%";
+      document.getElementById('progressText').textContent = percent + "%";
+    }
+    fields.forEach(id => document.getElementById(id).addEventListener('input', calcProgress));
+    // Submit report, store in localStorage
+    document.getElementById('reportForm').onsubmit = function(e) {
+      e.preventDefault();
+      
+      // Get user information
+      const userName = localStorage.getItem("userName") || "User";
+      const userEmail = localStorage.getItem("userEmail") || "user@example.com";
+      
+      const report = {
+        id: Date.now() + Math.random(), // Unique ID
+        category: document.getElementById('rCategory').value.trim(),
+        area: document.getElementById('rArea').value.trim(),
+        desc: document.getElementById('rDesc').value.trim(),
+        image: snappedImageData,
+        user: userName,
+        userEmail: userEmail,
+        submittedAt: new Date().toLocaleString(),
+        date: new Date().toISOString(),
+        dateDisplay: new Date().toLocaleDateString(),
+        status: 'pending',
+        timestamp: Date.now()
+      };
+      
+      // Save to user's personal issues
+      let userIssues = [];
+      try { userIssues = JSON.parse(localStorage.getItem('userIssues')) || []; } catch{}
+      userIssues.push(report);
+      localStorage.setItem('userIssues', JSON.stringify(userIssues));
+      
+      // Save to global issues (all users can see)
+      let allIssues = [];
+      try { allIssues = JSON.parse(localStorage.getItem('allIssues')) || []; } catch{}
+      allIssues.push(report);
+      localStorage.setItem('allIssues', JSON.stringify(allIssues));
+      
+      // Update user's issue count
+      let userStats = {};
+      try { userStats = JSON.parse(localStorage.getItem('userStats')) || {}; } catch{}
+      if (!userStats[userEmail]) {
+        userStats[userEmail] = { totalIssues: 0, resolvedIssues: 0, pendingIssues: 0 };
+      }
+      userStats[userEmail].totalIssues += 1;
+      userStats[userEmail].pendingIssues += 1;
+      localStorage.setItem('userStats', JSON.stringify(userStats));
+      
+      alert("Issue reported successfully! Your issue has been recorded and saved.");
+      document.getElementById('reportForm').reset();
+      calcProgress();
+      imgPreview.style.display = "none";
+      snappedImageData = '';
+    };
+  </script>
+</body>
+</html>
